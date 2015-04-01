@@ -3,25 +3,35 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>xngn^Express Engine for Embed Content in JavaScript</title>
+    <script type="text/javascript" src="../src/xngn.js"></script>
+    <script type="text/javascript">
+        (function(x) {
+            x.taglib('userProfileContainer',
+                div('id="container"',
+                    h1('', 'User Profiles'),
+                    socket(),
+                    p('All user info is restricted to use publicly.')
+                )
+            );
+            x.taglib('userProfile',
+                div('id="user-profile-${idx}" class="user-profile" style="color: ${color}"',
+                    h3('id="name"',
+                        '${user.name}'
+                    ),
+                    img('class="picture" src="${user.imgSrc}"')
+                )
+            );
+        })(xngn)
+    </script>
 </head>
 <body>
-<loop on="pets" as="pet" index="i">
-
-</loop>
-<div xprs="pet:pets | even()" index="i">
-
-</div>
-<if says="">
-
-</if>
-<elseif>
-
-</elseif>
-<else>
-
-</else>
-<div xprs="pet.name == 'Cake'">
-
-</div>
+<script type="text/javascript">
+    div('id=container data-id=dataId',
+        p('class="title"',
+            'Hello',
+            strong('Dhaka!')
+        )
+    )
+</script>
 </body>
 </html>
