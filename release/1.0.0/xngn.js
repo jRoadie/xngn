@@ -1,15 +1,33 @@
-(function() {
+(function($) {
     var xprs = {};
     var services = {};
     var filters = {};
-    var scopes = {};
+    var scopes = {
+        global: {},
+        request: {}
+    };
+
+    var TagLib = function(tag, attr, body) {
+        $.extend(this, attr, {
+            tag: tag,
+            body: body
+        })
+    };
+
     var taglibs = {};
 
-    var xngn = function() {
+    var ExpressEngine = function($dom) {
 
     };
 
-    var xproto = xngn.prototype;
+    var xproto = ExpressEngine.prototype;
+
+    /**
+     * Initializing the whole Engine
+     * */
+    xproto.init = function() {
+
+    };
 
     xproto.service = function(service) {
 
@@ -22,5 +40,9 @@
     };
     xproto.render = function(template, data) {
 
-    }
-})();
+    };
+
+    xproto.init();
+
+    window.xngn = ExpressEngine;
+})(jQuery);
