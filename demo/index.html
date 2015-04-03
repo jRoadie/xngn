@@ -3,12 +3,13 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>xngn^Express Engine for Embed Content in JavaScript</title>
+    <script type="text/javascript" src="lib/jquery/jquery-1.11.2.js"></script>
     <script type="text/javascript" src="../src/xngn.js"></script>
     <script type="text/javascript">
-        (function(x) {
+        /*(function(x) {
             x.taglib('userProfileContainer',
                 div('id="container"',
-                    h1('', 'User Profiles'),
+                    h1('User Profiles'),
                     socket(),
                     p('All user info is restricted to use publicly.')
                 )
@@ -21,17 +22,20 @@
                     img('class="picture" src="${user.imgSrc}"')
                 )
             );
-        })(xngn)
+        })(xngn)*/
     </script>
 </head>
 <body>
 <script type="text/javascript">
-    div('id=container data-id=dataId',
-        p('class="title"',
-            'Hello',
-            strong('Dhaka!')
+    $(function () {
+        $('body').append(
+            div('id="container"',
+                'Hello Express Engine!'
+            ).div(
+                'Sorry I\'ve no Attribute :/'
+            ).html()
         )
-    )
+    })
 </script>
 </body>
 </html>
