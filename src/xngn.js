@@ -12,66 +12,79 @@
 
     var allHtmlTags = ['div', 'h1'].concat(selfClosingHtmlTags);
 
-    var Element = function Element(tag, args) {
+    var taglibs = {
+        a: function() {
+            return new EETag('a', this, arguments);
+        },
+        div: function() {
+            return new EETag('div', this, arguments);
+        },
+        p: function() {
+            return new EETag('p', this, arguments);
+        },
+        span: function() {
+            return new EETag('span', this, arguments);
+        }
+    };
+
+    function EETag(tag, caller, args) {
 
         this.tag = tag;
         this.attr = null;
-        this.body = '';
+        this.text = '';
+        this.options = undefined;
         this.sibling = null;
 
-        this.html = function() {
-            var dom = '<' + this.tag;
-            if(this.attr) {
-                dom += ' ' + this.attr;
+        var that = this;
+        var setProperties = function(arg) {
+            if(arg.indexOf('="') > 0) { //TODO: use regex to identify
+                that.attr = arg;
+            } else if(typeof arg === 'string' || arg instanceof String) {
+                that.text = arg; //TODO: use escape html function to render text
+            } else if(!arg instanceof EETag && arg instanceof Object) { //TODO: use PlainObject instead of {}
+                that.options = arg;
             }
-            if(this.isSelfClosingTag()) {
-                dom += ' />';
-            } else {
-                dom += this.body;
-            }
-            if(this.sibling) {
-                dom += this.sibling.html();
-            }
-            return dom;
         };
 
-        this.isSelfClosingTag = function () {
-            return allHtmlTags.indexOf(this.tag) > -1;
-        };
-
-        var self = this;
-        for(var i = 0; i < allHtmlTags.length; i++) {
-            var t = allHtmlTags[i];
-            self[t] = function () {
-                self.sibling = window[t].apply(self, arguments);
-                return self;
-            }
+        for(var i = 0; i < args.length; i++) {
+            setProperties(args[i])
         }
 
-        var attr = args[0],
-            elem = [],
-            options = args[args.length - 1];
-        if(attr.indexOf('="') > 0) { //has attribute TODO: use regex to identify
-            //TODO: process attr properly
-            this.attr = attr;
-            this.tag += ' ' + attr + '>';
+        if(caller instanceof EETag) {
+            this.sibling = caller;
+        }
+
+    }
+
+    var el_proto = EETag.prototype;
+    el_proto.html = function() {
+        var dom = '<' + this.tag;
+
+        if(this.attr) {
+            dom += ' ' + this.attr;
+        }
+
+        if(this.isSelfClosingTag()) {
+            dom += ' />';
         } else {
-            elem.push(attr);
-            attr = undefined;
-        }
-        if(!options instanceof Element && options instanceof Object) {
-            //TODO: prepare support for options
-        } else {
-            options = undefined;
+            dom += '>';
+            dom += this.text;
+            dom += '</' + tag + '>'
         }
 
+        if(this.sibling) {
+            dom += this.sibling.html();
+        }
+
+        return dom;
     };
 
-    for(var i = 0; i < allHtmlTags.length; i++) {
-        var tag = allHtmlTags[i];
-        window[tag] = new function () {
-            return new Element(tag, arguments)
-        };
+    el_proto.isSelfClosingTag = function () {
+        return selfClosingHtmlTags.indexOf(this.tag) > -1;
+    };
+
+    for(var tag in taglibs) {
+        window[tag] = EETag.prototype[tag] = taglibs[tag];
     }
 
 })();
