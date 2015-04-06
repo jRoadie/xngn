@@ -2,19 +2,19 @@
 
     var taglibs = {
         a: function() {
-            return new TagLib('a', this, arguments);
+            return new TagLib('a', arguments);
         },
         div: function() {
-            return new TagLib('div', this, arguments);
+            return new TagLib('div', arguments);
         },
         img: function() {
-            return new TagLib('img', this, arguments);
+            return new TagLib('img', arguments);
         },
         p: function() {
-            return new TagLib('p', this, arguments);
+            return new TagLib('p', arguments);
         },
         span: function() {
-            return new TagLib('span', this, arguments);
+            return new TagLib('span', arguments);
         }
     };
 
@@ -74,7 +74,7 @@
 
     var allHtmlTags = ['div', 'h1'].concat(selfClosingHtmlTags);
 
-    function TagLib(tag, caller, args) {
+    function TagLib(tag, args) {
 
         this.tag = tag;
         this.attr = null;
@@ -103,10 +103,6 @@
 
         for(var i = 0; i < args.length; i++) {
             setProperties(args[i])
-        }
-
-        if(caller instanceof TagLib) {
-            this.sibling = caller;
         }
 
     }
