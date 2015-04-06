@@ -27,8 +27,8 @@
 </head>
 <body>
 <script type="text/javascript">
-    $(function () {
-        document.body.innerHTML = xngn.html(
+    (function (x) {
+        document.body.innerHTML = x.html(
             a('href="ddd.com"',
                 'Happy'
             ),
@@ -41,7 +41,7 @@
             ),
             img('src="abc.png"')
         )
-    })
+    })(xngn)
 </script>
 </body>
 </html>
