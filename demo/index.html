@@ -6,23 +6,22 @@
     <script type="text/javascript" src="lib/jquery/jquery-1.11.2.js"></script>
     <script type="text/javascript" src="../src/xngn.js"></script>
     <script type="text/javascript">
-        /*(function(x) {
-            x.taglib('userProfileContainer',
-                div('id="container"',
-                    h1('User Profiles'),
-                    socket(),
-                    p('All user info is restricted to use publicly.')
-                )
+        (function(x) {
+            x.taglib('userProfileContainer', function () {
+                    return div('id="container"',
+                        p('All user info is restricted to use ', span('publicly.'))
+                    )
+                }
             );
-            x.taglib('userProfile',
+            /*x.taglib('userProfile',
                 div('id="user-profile-${idx}" class="user-profile" style="color: ${color}"',
                     h3('id="name"',
                         '${user.name}'
                     ),
                     img('class="picture" src="${user.imgSrc}"')
                 )
-            );
-        })(xngn)*/
+            );*/
+        })(xngn)
     </script>
 </head>
 <body>
@@ -35,6 +34,7 @@
             div('id="container"',
                 'Hello Express Engine!'
             ),
+            userProfileContainer(),
             p(
                 'Ppppppppppp',
                 p('jkjk', span(54554, p('sdf')))

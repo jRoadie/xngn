@@ -1,7 +1,33 @@
 (function() {
 
+    var taglibs = {
+        a: function() {
+            return new TagLib('a', this, arguments);
+        },
+        div: function() {
+            return new TagLib('div', this, arguments);
+        },
+        img: function() {
+            return new TagLib('img', this, arguments);
+        },
+        p: function() {
+            return new TagLib('p', this, arguments);
+        },
+        span: function() {
+            return new TagLib('span', this, arguments);
+        }
+    };
+
     xngn = function () {
 
+    };
+
+    xngn.taglib = function (name, handler) {
+        if(handler) {
+            window[name] = taglibs[name] = handler;
+        } else {
+            return taglibs[name];
+        }
     };
 
     xngn.html = function () {
@@ -47,24 +73,6 @@
     var selfClosingHtmlTags = ['img'];
 
     var allHtmlTags = ['div', 'h1'].concat(selfClosingHtmlTags);
-
-    var taglibs = {
-        a: function() {
-            return new TagLib('a', this, arguments);
-        },
-        div: function() {
-            return new TagLib('div', this, arguments);
-        },
-        img: function() {
-            return new TagLib('img', this, arguments);
-        },
-        p: function() {
-            return new TagLib('p', this, arguments);
-        },
-        span: function() {
-            return new TagLib('span', this, arguments);
-        }
-    };
 
     function TagLib(tag, caller, args) {
 
