@@ -9,7 +9,11 @@
         (function(x) {
             x.taglib('userProfileContainer', function () {
                     return div('id="container"',
-                        p('All user info is restricted to use ', span('publicly.'))
+                        p(
+                            'All user info is restricted to use ',
+                            span('publicly.')
+                        ),
+                        taglet()
                     )
                 }
             );
@@ -34,7 +38,9 @@
             div('id="container"',
                 'Hello Express Engine!'
             ),
-            userProfileContainer(),
+            userProfileContainer(
+                'fsdsfdsdfsffs'
+            ),
             p(
                 'Ppppppppppp',
                 p('jkjk', span(54554, p('sdf')))
