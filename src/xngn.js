@@ -19,6 +19,9 @@
         div: function() {
             return new EETag('div', this, arguments);
         },
+        img: function() {
+            return new EETag('img', this, arguments);
+        },
         p: function() {
             return new EETag('p', this, arguments);
         },
@@ -73,9 +76,10 @@
         }
 
         if(this.sibling) {
-            dom += this.sibling.html();
+            dom = this.sibling.html() + dom;
         }
-
+        console.log(tag)
+console.log(dom)
         return dom;
     };
 
@@ -84,7 +88,9 @@
     };
 
     for(var tag in taglibs) {
-        window[tag] = EETag.prototype[tag] = taglibs[tag];
+        if(taglibs.hasOwnProperty(tag)) {
+            window[tag] = EETag.prototype[tag] = taglibs[tag];
+        }
     }
 
 })();
