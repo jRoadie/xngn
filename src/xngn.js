@@ -1,7 +1,43 @@
 (function() {
 
-    var xngn = function () {
+    xngn = function () {
 
+    };
+
+    xngn.html = function () {
+        var compile = function (taglib) {
+            var dom = '<' + taglib.tag;
+
+            if(taglib.attr) {
+                dom += ' ' + taglib.attr;
+            }
+
+            if(taglib.isSelfClosingTag()) {
+                dom += '/>';
+            } else {
+                dom += '>';
+                for(var i = 0; i < taglib.children.length; i++) {
+                    var child = taglib.children[i];
+                    if(child instanceof TagLib) {
+                        dom += compile(child);
+                    } else {
+                        dom += child;
+                    }
+                }
+                dom += '</' + taglib.tag + '>'
+            }
+
+            return dom;
+        };
+
+        var _dom = '';
+        for(var i = 0; i < arguments.length; i++) {
+            var taglib = arguments[i];
+            if(taglib instanceof TagLib) {
+                _dom += compile(taglib)
+            }
+        }
+        return _dom;
     };
 
     var default_options = {
@@ -14,37 +50,45 @@
 
     var taglibs = {
         a: function() {
-            return new EETag('a', this, arguments);
+            return new TagLib('a', this, arguments);
         },
         div: function() {
-            return new EETag('div', this, arguments);
+            return new TagLib('div', this, arguments);
         },
         img: function() {
-            return new EETag('img', this, arguments);
+            return new TagLib('img', this, arguments);
         },
         p: function() {
-            return new EETag('p', this, arguments);
+            return new TagLib('p', this, arguments);
         },
         span: function() {
-            return new EETag('span', this, arguments);
+            return new TagLib('span', this, arguments);
         }
     };
 
-    function EETag(tag, caller, args) {
+    function TagLib(tag, caller, args) {
 
         this.tag = tag;
         this.attr = null;
-        this.text = '';
+        this.children = [];
         this.options = undefined;
-        this.sibling = null;
 
         var that = this;
         var setProperties = function(arg) {
-            if(arg.indexOf('="') > 0) { //TODO: use regex to identify
-                that.attr = arg;
+
+            if(typeof arg === 'number' || arg instanceof Number) {
+                arg = arg + '';
+            }
+
+            if(arg instanceof TagLib) {
+                that.children.push(arg)
             } else if(typeof arg === 'string' || arg instanceof String) {
-                that.text = arg; //TODO: use escape html function to render text
-            } else if(!arg instanceof EETag && arg instanceof Object) { //TODO: use PlainObject instead of {}
+                if(arg.indexOf('="') > 0) { //TODO: use regex to identify
+                    that.attr = arg;
+                } else {
+                    that.children.push(arg); //TODO: use escape html function to render text
+                }
+            } else if(!arg instanceof TagLib && arg instanceof Object) { //TODO: use PlainObject instead of {}
                 that.options = arg;
             }
         };
@@ -53,43 +97,20 @@
             setProperties(args[i])
         }
 
-        if(caller instanceof EETag) {
+        if(caller instanceof TagLib) {
             this.sibling = caller;
         }
 
     }
 
-    var el_proto = EETag.prototype;
-    el_proto.html = function() {
-        var dom = '<' + this.tag;
-
-        if(this.attr) {
-            dom += ' ' + this.attr;
-        }
-
-        if(this.isSelfClosingTag()) {
-            dom += ' />';
-        } else {
-            dom += '>';
-            dom += this.text;
-            dom += '</' + tag + '>'
-        }
-
-        if(this.sibling) {
-            dom = this.sibling.html() + dom;
-        }
-        console.log(tag)
-console.log(dom)
-        return dom;
-    };
-
-    el_proto.isSelfClosingTag = function () {
+    var taglib_proto = TagLib.prototype;
+    taglib_proto.isSelfClosingTag = function () {
         return selfClosingHtmlTags.indexOf(this.tag) > -1;
     };
 
     for(var tag in taglibs) {
         if(taglibs.hasOwnProperty(tag)) {
-            window[tag] = EETag.prototype[tag] = taglibs[tag];
+            window[tag] = taglibs[tag];
         }
     }
 

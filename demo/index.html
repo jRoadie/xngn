@@ -28,13 +28,18 @@
 <body>
 <script type="text/javascript">
     $(function () {
-        $('body').append(
+        document.body.innerHTML = xngn.html(
+            a('href="ddd.com"',
+                'Happy'
+            ),
             div('id="container"',
                 'Hello Express Engine!'
-            ).p(
-                'Ppppppppppp'
-            ).img('src="abc.png"'
-            ).html()
+            ),
+            p(
+                'Ppppppppppp',
+                p('jkjk', span(54554, p('sdf')))
+            ),
+            img('src="abc.png"')
         )
     })
 </script>
