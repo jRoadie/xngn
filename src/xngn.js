@@ -30,6 +30,14 @@
         }
     };
 
+    xngn.attrlib = function () {
+
+    };
+
+    xngn.xpress = function () {
+
+    };
+
     xngn.html = function () {
         var compile = function (taglib) {
             var dom = '<' + taglib.tag;
@@ -71,8 +79,6 @@
     };
 
     var selfClosingHtmlTags = ['img'];
-
-    var allHtmlTags = ['div', 'h1'].concat(selfClosingHtmlTags);
 
     function TagLib(tag, args) {
 

@@ -7,13 +7,12 @@
     <script type="text/javascript" src="../src/xngn.js"></script>
     <script type="text/javascript">
         (function(x) {
-            x.taglib('userProfileContainer', function () {
+            x.taglib('simpleTaglib', function () {
                     return div('id="container"',
                         p(
                             'All user info is restricted to use ',
                             span('publicly.')
-                        ),
-                        taglet()
+                        )
                     )
                 }
             );
@@ -38,9 +37,7 @@
             div('id="container"',
                 'Hello Express Engine!'
             ),
-            userProfileContainer(
-                'fsdsfdsdfsffs'
-            ),
+            simpleTaglib(),
             p(
                 'Ppppppppppp',
                 p('jkjk', span(54554, p('sdf')))
