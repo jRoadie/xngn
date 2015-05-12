@@ -4,47 +4,17 @@
     <meta charset="UTF-8">
     <title>xngn^Express Engine for Embed Content in JavaScript</title>
     <script type="text/javascript" src="lib/jquery/jquery-1.11.2.js"></script>
-    <script type="text/javascript" src="../src/xngn.js"></script>
-    <script type="text/javascript">
-        (function(x) {
-            x.taglib('simpleTaglib', function () {
-                    return div('id="container"',
-                        p(
-                            'All user info is restricted to use ',
-                            span('publicly.')
-                        )
-                    )
-                }
-            );
-            /*x.taglib('userProfile',
-                div('id="user-profile-${idx}" class="user-profile" style="color: ${color}"',
-                    h3('id="name"',
-                        '${user.name}'
-                    ),
-                    img('class="picture" src="${user.imgSrc}"')
-                )
-            );*/
-        })(xngn)
-    </script>
+    <script type="text/javascript" src="../release/1.0.0/xngn.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
 </head>
 <body>
-<script type="text/javascript">
-    (function (x) {
-        document.body.innerHTML = x.html(
-            a('href="ddd.com"',
-                'Happy'
-            ),
-            div('id="container"',
-                'Hello Express Engine!'
-            ),
-            simpleTaglib(),
-            p(
-                'Ppppppppppp',
-                p('jkjk', span(54554, p('sdf')))
-            ),
-            img('src="abc.png"')
-        )
-    })(xngn)
-</script>
+<div class="container">
+    <!-- Example: each loop -->
+    <ul>
+        <each in="names" as="name" idx="i">
+            <li>${name}</li>
+        </each>
+    </ul>
+</div>
 </body>
 </html>
