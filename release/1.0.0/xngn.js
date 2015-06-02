@@ -31,14 +31,14 @@
         })
     };
 
-    var Taglet = function Taglet() {
+    var Taglet = function Taglet(def) {
         $.extend(this, {
             tag: '',
             attr: {},
             template: '',
             templateUrl: '',
             scriptlets: []
-        });
+        }, def);
     };
 
     $.extend(Taglet.prototype, {
@@ -59,10 +59,7 @@
     };
 
     var taglet = ExpressEngine.taglet = function(def) {
-        if(def.tag == 'let') {
-            //console.error('let taglet can\'t be overwritten.')
-        }
-
+        taglets[def.tag] = new Taglet(def);
     };
 
     ExpressEngine.scriptlet = function() {
@@ -98,7 +95,10 @@
             tag: 'let'
         });
         taglet({
-            tag: 'each'
+            tag: 'each',
+            processor: function(attr, body) {
+
+            }
         })
     })();
 
